@@ -22,5 +22,6 @@ struct Constants {
      let city               = "Город"
      let alertMessage       = "Выберите аэропорт отправки и прибытия."
      let alertTitle         = "Ошибка"
+     let alertMessageError  = "Маршруты не найдены"
 
 }

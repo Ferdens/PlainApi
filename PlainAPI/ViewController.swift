@@ -46,6 +46,9 @@ class ViewController: UIViewController {
         guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);
             return }
         DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo, responseData: { (response ) in
+            if response.count == 0 {
+                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle)
+            }
             self.trips = response
             self.tableView.reloadData()
         })
