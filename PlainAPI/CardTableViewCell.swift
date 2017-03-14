@@ -14,7 +14,5 @@ class CardTableViewCell: UITableViewCell {
     @IBOutlet weak var arrival: UILabel!
     @IBOutlet weak var departure: UILabel!
     @IBOutlet weak var slice: UILabel!
-   
-
 
 }

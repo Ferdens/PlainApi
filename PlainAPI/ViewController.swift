@@ -12,6 +12,9 @@ import DropDown
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var backGroundViewBottom: UIView!
+    @IBOutlet weak var sendRequestButton: UIButton!
+    @IBOutlet weak var backGroundViewTop: UIView!
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
     @IBOutlet weak var arrivalCity      : UILabel!
@@ -26,14 +29,22 @@ class ViewController: UIViewController {
     var shortTitle   = [String]()
     var trips        = [APIData]()
     var constants    = Constants()
-    var from         : String?
-    var to           : String?
+    var from                : String?
+    var to                  : String?
+    var startButtonPosition : CGPoint?
+    var startTableViewPostion :CGPoint?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
-       
+
+        self.startButtonPosition = self.sendRequestButton.frame.origin
+        self.startTableViewPostion = self.tableView.frame.origin
+
     }
+   
      //MARK: Actions
     @IBAction func buttonFrom(_ sender: UIButton) {
         dropDownFrom.show()
@@ -42,13 +53,17 @@ class ViewController: UIViewController {
         dropDownTo.show()
     }
     @IBAction func sendRequest(_ sender: UIButton) {
-        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);  return }
-        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);
+        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions(1);  return }
+        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions(1);
             return }
+         if self.from == self.to {
+            self.alertViewWith(message: self.constants.ifOriginAndDistinctisEqual, title:"");self.defaultPsitions(1); return }
+        
+        self.goAwayWith(1)
         DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo, responseData: { (response ) in
-            if response.count == 0 {
-                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle)
-            }
+            guard response.count != 0 else {
+                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle); return }
+        self.defaultPsitions(1)
             self.trips = response
             self.tableView.reloadData()
         })
@@ -78,11 +93,13 @@ extension ViewController {
         self.labelTo.text           = self.constants.flyTo
         self.departureCity.text     = self.constants.city
         self.arrivalCity.text       = self.constants.city
+       
+        self.borderFor(buttonFrom)
+        self.borderFor(buttonTo)
         dropDownFrom = DropDown()
         dropDownFrom.anchorView = buttonFrom
         dropDownFrom.dataSource = self.airportsName
         dropDownFrom.selectionAction = {(index: Int, item: String) in
-            print(index)
             self.departureCity.text = item
             self.from = self.shortTitle[index]
         }
@@ -107,6 +124,28 @@ extension ViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
+}
+
+extension ViewController {
+    
+    func goAwayWith(_ duration: Double) {
+        UIView.animate(withDuration: TimeInterval(duration)) {
+            let awayPosition = -self.view.frame.width
+            self.tableView.frame.origin.x = awayPosition
+            self.sendRequestButton.frame.origin.y = self.tableView.frame.origin.y
+        }
+    }
+    func defaultPsitions(_ duration: Double){
+        UIView.animate(withDuration: TimeInterval(duration)) {
+            self.tableView.frame.origin = self.startTableViewPostion!
+            self.sendRequestButton.frame.origin = self.startButtonPosition!
+        }
+    }
+    
+    func borderFor(_ button: UIButton) {
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 2
+    }
 }
 
 
