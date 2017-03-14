@@ -24,5 +24,7 @@ struct Constants {
      let alertTitle         = "Ошибка"
      let alertMessageError  = "Маршруты не найдены."
      let ifOriginAndDistinctisEqual = "Не лучший вариант."
+   
+    
 
 }

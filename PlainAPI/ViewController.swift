@@ -23,29 +23,32 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelTo          : UILabel!
     @IBOutlet weak var tableView        : UITableView!
     
-    var dropDownFrom : DropDown!
-    var dropDownTo   : DropDown!
-    var airportsName = [String]()
-    var shortTitle   = [String]()
-    var trips        = [APIData]()
-    var constants    = Constants()
-    var from                : String?
-    var to                  : String?
-    var startButtonPosition : CGPoint?
+    var dropDownFrom          : DropDown!
+    var dropDownTo            : DropDown!
+    var airportsName          = [String]()
+    var shortTitle            = [String]()
+    var trips                 = [APIData]()
+    var constants             = Constants()
+    var from                  : String?
+    var to                    : String?
+    var startButtonPosition   : CGPoint?
     var startTableViewPostion :CGPoint?
-    
+    var plainAway             = [UIImage]()
+    var plainReturn           = [UIImage]()
+    var plainInProgress       = [UIImage]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
-
+        self.imagesToArrays()
+        
         self.startButtonPosition = self.sendRequestButton.frame.origin
         self.startTableViewPostion = self.tableView.frame.origin
-
+        
     }
-   
-     //MARK: Actions
+    
+    //MARK: Actions
     @IBAction func buttonFrom(_ sender: UIButton) {
         dropDownFrom.show()
     }
@@ -53,17 +56,16 @@ class ViewController: UIViewController {
         dropDownTo.show()
     }
     @IBAction func sendRequest(_ sender: UIButton) {
-        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions(1);  return }
-        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions(1);
+        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();  return }
+        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();
             return }
-         if self.from == self.to {
-            self.alertViewWith(message: self.constants.ifOriginAndDistinctisEqual, title:"");self.defaultPsitions(1); return }
-        
-        self.goAwayWith(1)
+        if self.from == self.to {
+            self.alertViewWith(message: self.constants.ifOriginAndDistinctisEqual, title:"");self.defaultPsitions(); return }
+        self.goAway()
         DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo, responseData: { (response ) in
             guard response.count != 0 else {
-                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle); return }
-        self.defaultPsitions(1)
+                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle);self.defaultPsitions(); return }
+            self.defaultPsitions()
             self.trips = response
             self.tableView.reloadData()
         })
@@ -93,7 +95,6 @@ extension ViewController {
         self.labelTo.text           = self.constants.flyTo
         self.departureCity.text     = self.constants.city
         self.arrivalCity.text       = self.constants.city
-       
         self.borderFor(buttonFrom)
         self.borderFor(buttonTo)
         dropDownFrom = DropDown()
@@ -116,35 +117,61 @@ extension ViewController {
 extension ViewController {
     
     func alertViewWith(message: String, title: String) {
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) { [unowned self] (action: UIAlertAction!) in
             self.dismiss(animated: true, completion: nil)
         })
         self.present(alert, animated: true, completion: nil)
     }
-
+    
 }
 
 extension ViewController {
     
-    func goAwayWith(_ duration: Double) {
-        UIView.animate(withDuration: TimeInterval(duration)) {
-            let awayPosition = -self.view.frame.width
-            self.tableView.frame.origin.x = awayPosition
-            self.sendRequestButton.frame.origin.y = self.tableView.frame.origin.y
+    func goAway() {
+        self.sendRequestButton.imageView?.animationImages = self.plainAway
+        self.sendRequestButton.imageView?.animationRepeatCount = 1
+        self.sendRequestButton.imageView?.animationDuration = 0.6
+        self.sendRequestButton.setImage(#imageLiteral(resourceName: "21a"), for: .normal)
+        self.sendRequestButton.imageView?.startAnimating()
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (tiemer) in
+            self.sendRequestButton.imageView?.animationImages = self.plainInProgress
+            self.sendRequestButton.imageView?.animationRepeatCount = 0
+            self.sendRequestButton.imageView?.animationDuration = 0.6
+            self.sendRequestButton.imageView?.startAnimating()
         }
+        
+        
     }
-    func defaultPsitions(_ duration: Double){
-        UIView.animate(withDuration: TimeInterval(duration)) {
-            self.tableView.frame.origin = self.startTableViewPostion!
-            self.sendRequestButton.frame.origin = self.startButtonPosition!
+    func defaultPsitions(){
+        if (self.sendRequestButton.imageView?.isAnimating)! {
+            self.sendRequestButton.imageView?.stopAnimating()
         }
+        self.sendRequestButton.imageView?.animationImages = self.plainReturn
+        self.sendRequestButton.imageView?.animationRepeatCount = 1
+        self.sendRequestButton.imageView?.animationDuration = 0.6
+        self.sendRequestButton.setImage(#imageLiteral(resourceName: "1a"), for: .normal)
+        self.sendRequestButton.imageView?.startAnimating()
     }
-    
     func borderFor(_ button: UIButton) {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 2
+    }
+}
+extension ViewController {
+    func imagesToArrays(){
+        for i in 1..<22 {
+            let nameAway   = String(i) + "a"
+            let nameReturn = String(i) + "r"
+            if let imageAway = UIImage.init(named: nameAway) {self.plainAway.append(imageAway)}
+            if let imageReturn = UIImage.init(named: nameReturn){ self.plainReturn.append(imageReturn)}
+        }
+        for i in 1..<39 {
+            let imageName = String(i) + "f"
+            if let image = UIImage.init(named: imageName) {
+                self.plainInProgress.append(image)
+            }
+        }
     }
 }
 
