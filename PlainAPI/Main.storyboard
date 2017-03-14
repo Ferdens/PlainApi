@@ -134,7 +134,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0V-ca-mVK">
                                 <rect key="frame" x="112" y="471" width="96" height="96.5"/>
-                                <state key="normal" title="Button" image="PlainPDF"/>
+                                <state key="normal" image="1a"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.CornerRadius">
                                         <integer key="value" value="10"/>
@@ -254,6 +254,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="PlainPDF" width="180" height="180"/>
+        <image name="1a" width="200" height="200"/>
     </resources>
 </document>
