@@ -134,7 +134,7 @@ extension ViewController {
         self.sendRequestButton.imageView?.animationDuration = 0.6
         self.sendRequestButton.setImage(#imageLiteral(resourceName: "21a"), for: .normal)
         self.sendRequestButton.imageView?.startAnimating()
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (tiemer) in
+        Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { (tiemer) in
             self.sendRequestButton.imageView?.animationImages = self.plainInProgress
             self.sendRequestButton.imageView?.animationRepeatCount = 0
             self.sendRequestButton.imageView?.animationDuration = 1
