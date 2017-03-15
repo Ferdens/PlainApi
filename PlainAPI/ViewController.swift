@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
     @IBOutlet weak var arrivalCity      : UILabel!
+    
+
+    
     @IBOutlet weak var departureCity    : UILabel!
     @IBOutlet weak var labelFrom        : UILabel!
     @IBOutlet weak var labelTo          : UILabel!
@@ -36,18 +39,15 @@ class ViewController: UIViewController {
     var plainAway             = [UIImage]()
     var plainReturn           = [UIImage]()
     var plainInProgress       = [UIImage]()
-    
+    var pleaseChooseLabel     : UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
         self.imagesToArrays()
-        
         self.startButtonPosition = self.sendRequestButton.frame.origin
         self.startTableViewPostion = self.tableView.frame.origin
-        
     }
-    
     //MARK: Actions
     @IBAction func buttonFrom(_ sender: UIButton) {
         dropDownFrom.show()
@@ -65,6 +65,10 @@ class ViewController: UIViewController {
         DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo, responseData: { (response ) in
             guard response.count != 0 else {
                 self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle);self.defaultPsitions(); return }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.tableView.frame.origin = self.startTableViewPostion!
+                self.pleaseChooseLabel.frame.origin.x = self.pleaseChooseLabel.frame.origin.x + self.view.frame.width
+            })
             self.defaultPsitions()
             self.trips = response
             self.tableView.reloadData()
@@ -79,10 +83,14 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CardTableViewCell
         let dataForCell     = self.trips[indexPath.row]
-        cell.arrival.text   = self.constants.plainWillArrive + dataForCell.arrival
-        cell.departure.text = self.constants.plainWillDeparture +   dataForCell.departure
-        cell.price.text     = self.constants.ticketPrice + dataForCell.price
-        cell.slice.text     = self.constants.sliceCount + String(dataForCell.sliceCount)
+        cell.awayText.text  = self.constants.plainWillDeparture
+        cell.arrivalText.text  = self.constants.plainWillArrive
+        cell.priceText.text    = self.constants.ticketPrice
+        cell.slidesText.text   = self.constants.sliceCount
+        cell.arrival.text   = dataForCell.arrival
+        cell.departure.text = dataForCell.departure
+        cell.price.text     = dataForCell.price
+        cell.slice.text     = String(dataForCell.sliceCount)
         return cell
     }
 }
@@ -111,11 +119,16 @@ extension ViewController {
             self.arrivalCity.text = item
             self.to = self.self.shortTitle[index]
         }
+         self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
+        self.pleaseChooseLabel.numberOfLines = 3
+        self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
+        self.pleaseChooseLabel.text = self.constants.chooseCityes
+        self.pleaseChooseLabel.font.withSize(25)
+        self.view.addSubview(pleaseChooseLabel)
     }
 }
 //MARK: AlertView
 extension ViewController {
-    
     func alertViewWith(message: String, title: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) { [unowned self] (action: UIAlertAction!) in
@@ -123,11 +136,8 @@ extension ViewController {
         })
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
-
 extension ViewController {
-    
     func goAway() {
         self.sendRequestButton.imageView?.animationImages = self.plainAway
         self.sendRequestButton.imageView?.animationRepeatCount = 1
@@ -140,8 +150,6 @@ extension ViewController {
             self.sendRequestButton.imageView?.animationDuration = 1
             self.sendRequestButton.imageView?.startAnimating()
         }
-        
-        
     }
     func defaultPsitions(){
         if (self.sendRequestButton.imageView?.isAnimating)! {
@@ -154,7 +162,7 @@ extension ViewController {
         self.sendRequestButton.imageView?.startAnimating()
     }
     func borderFor(_ button: UIButton) {
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor  = UIColor.cyan.cgColor
         button.layer.borderWidth = 2
     }
 }
@@ -174,5 +182,7 @@ extension ViewController {
         }
     }
 }
+
+
 
 

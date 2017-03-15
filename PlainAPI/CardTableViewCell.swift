@@ -14,5 +14,11 @@ class CardTableViewCell: UITableViewCell {
     @IBOutlet weak var arrival: UILabel!
     @IBOutlet weak var departure: UILabel!
     @IBOutlet weak var slice: UILabel!
+    
+    @IBOutlet weak var awayText: UILabel!
+    
+    @IBOutlet weak var slidesText: UILabel!
 
+    @IBOutlet weak var priceText: UILabel!
+    @IBOutlet weak var arrivalText: UILabel!
 }

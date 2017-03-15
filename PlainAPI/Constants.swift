@@ -24,6 +24,7 @@ struct Constants {
      let alertTitle         = "Ошибка"
      let alertMessageError  = "Маршруты не найдены."
      let ifOriginAndDistinctisEqual = "Не лучший вариант."
+     let chooseCityes       = "Выберите пожалуйста аэропорт отправки и прибытия и вам покажет рейсы в ближайшие сутки."
    
     
 
