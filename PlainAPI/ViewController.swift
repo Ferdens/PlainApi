@@ -49,6 +49,14 @@ class ViewController: UIViewController {
     @IBAction func buttonTo(_ sender: UIButton) {
         dropDownTo.show()
     }
+    override func viewDidLayoutSubviews() {
+        self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
+        self.pleaseChooseLabel.numberOfLines = 3
+        self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
+        self.pleaseChooseLabel.text = self.constants.chooseCityes
+        self.pleaseChooseLabel.font.withSize(25)
+        self.view.addSubview(pleaseChooseLabel)
+    }
     @IBAction func sendRequest(_ sender: UIButton) {
         guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();  return }
         guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();
@@ -99,25 +107,7 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         cell.mainView.layer.shadowPath = UIBezierPath.init(rect: cell.mainView.bounds).cgPath
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.accessibilityFrame.width, height: UIScreen.main.accessibilityFrame.height * 0.1))
-//        view.backgroundColor = .white
-//        return view
-//        
-//    }
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return UIScreen.main.accessibilityFrame.height * 0.1
-//    }
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.accessibilityFrame.width, height: UIScreen.main.accessibilityFrame.height * 0.1))
-//        view.backgroundColor = .white
-//        return view
-//    }
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return UIScreen.main.accessibilityFrame.height * 0.1
-//    }
+
 
 }
 
@@ -146,12 +136,7 @@ extension ViewController {
             self.buttonTo.titleLabel?.text = airPortTitle
             self.to = airPortTitle
         }
-         self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
-        self.pleaseChooseLabel.numberOfLines = 3
-        self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
-        self.pleaseChooseLabel.text = self.constants.chooseCityes
-        self.pleaseChooseLabel.font.withSize(25)
-        self.view.addSubview(pleaseChooseLabel)
+        
     }
 }
 //MARK: AlertView
