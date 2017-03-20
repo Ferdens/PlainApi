@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h8a-gm-0Ly">
-    <device id="retina4_7" orientation="portrait">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="h8a-gm-0Ly">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,7 +18,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3c9-aF-Y0L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.55864153000000005" green="0.41699839909999997" blue="0.92333225389999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.18431372549019609" green="0.22745098039215686" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </textAttributes>
@@ -31,7 +31,7 @@
             </objects>
             <point key="canvasLocation" x="-1029" y="69"/>
         </scene>
-        <!--Let's fly-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PlainAPI" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,49 +40,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4h7-tY-GaM">
-                                <rect key="frame" x="-2" y="64" width="377" height="46.5"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TO2-5K-W4f">
-                                        <rect key="frame" x="185" y="0.0" width="188" height="46.5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Fly to">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="buttonTo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kn3-33-jru"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87m-gm-xA3">
-                                        <rect key="frame" x="6" y="0.0" width="177" height="46"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Fly From">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="buttonFrom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o3B-aq-uto"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.55864153004746164" green="0.41699839905686642" blue="0.92333225388601037" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="tintColor" red="0.71579172687919501" green="0.50525168056633452" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="87m-gm-xA3" secondAttribute="bottom" id="3xh-Pv-qhh"/>
-                                    <constraint firstItem="TO2-5K-W4f" firstAttribute="top" secondItem="4h7-tY-GaM" secondAttribute="top" id="AnV-R5-fB8"/>
-                                    <constraint firstItem="87m-gm-xA3" firstAttribute="leading" secondItem="4h7-tY-GaM" secondAttribute="leading" constant="6" id="BQ0-2a-6M2"/>
-                                    <constraint firstAttribute="bottom" secondItem="TO2-5K-W4f" secondAttribute="bottom" id="hAB-mx-bU7"/>
-                                    <constraint firstAttribute="trailing" secondItem="TO2-5K-W4f" secondAttribute="trailing" constant="4" id="qmq-1o-13d"/>
-                                    <constraint firstItem="TO2-5K-W4f" firstAttribute="leading" secondItem="87m-gm-xA3" secondAttribute="trailing" constant="2" id="ueo-gC-xBH"/>
-                                    <constraint firstItem="87m-gm-xA3" firstAttribute="top" secondItem="4h7-tY-GaM" secondAttribute="top" id="vez-MF-h0A"/>
-                                    <constraint firstItem="TO2-5K-W4f" firstAttribute="width" secondItem="4h7-tY-GaM" secondAttribute="width" multiplier="0.5" id="zvZ-3E-K1V"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0V-ca-mVK">
-                                <rect key="frame" x="131.5" y="553.5" width="112.5" height="113.5"/>
+                                <rect key="frame" x="112" y="471.5" width="96" height="96.5"/>
                                 <state key="normal" image="1a"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.CornerRadius">
@@ -94,61 +56,61 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" allowsSelection="NO" rowHeight="117" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4eT-e9-xtJ">
-                                <rect key="frame" x="0.0" y="122" width="379" height="400"/>
+                                <rect key="frame" x="0.0" y="64" width="324" height="397.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="1000" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="117" id="6Ea-eR-u0M" customClass="CardTableViewCell" customModule="PlainAPI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="379" height="117"/>
+                                        <rect key="frame" x="0.0" y="28" width="324" height="117"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Ea-eR-u0M" id="S7s-qA-82O">
-                                            <rect key="frame" x="0.0" y="0.0" width="379" height="116"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="324" height="116"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02M-q0-dGk">
-                                                    <rect key="frame" x="19" y="6" width="341" height="104.5"/>
+                                                    <rect key="frame" x="16" y="6" width="292" height="105"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slides" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhZ-Iz-ZYb">
-                                                            <rect key="frame" x="112.5" y="75.5" width="41.5" height="19"/>
+                                                            <rect key="frame" x="98" y="76" width="42" height="19"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" red="0.49521850679343715" green="0.53537158324644951" blue="0.55347480458916776" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arrival" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tu-oy-8Bz">
-                                                            <rect key="frame" x="170.5" y="33" width="170.5" height="19"/>
+                                                            <rect key="frame" x="146" y="33" width="146" height="19"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" red="0.49521850679343715" green="0.53537158324644951" blue="0.55347480458916776" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vow-c5-Uzp">
-                                                            <rect key="frame" x="10" y="10" width="136" height="20"/>
+                                                            <rect key="frame" x="10" y="10" width="116" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Departure" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="no8-CL-9xe">
-                                                            <rect key="frame" x="5" y="33" width="170.5" height="19"/>
+                                                            <rect key="frame" x="5" y="33" width="146" height="19"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" red="0.49521850679343715" green="0.53537158324644951" blue="0.55347480458916776" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48A-Zp-5EE">
-                                                            <rect key="frame" x="10" y="74.5" width="102.5" height="20"/>
+                                                            <rect key="frame" x="10" y="75" width="88" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itS-Bm-wPp">
-                                                            <rect key="frame" x="195" y="10" width="136" height="20"/>
+                                                            <rect key="frame" x="166" y="10" width="116" height="20"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMx-KX-aPI">
-                                                            <rect key="frame" x="195" y="75" width="136" height="19.5"/>
+                                                            <rect key="frame" x="166" y="75" width="116" height="20"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
                                                             <color key="textColor" red="0.10432185696622504" green="0.55488782051282048" blue="0.16211656543832681" alpha="1" colorSpace="calibratedRGB"/>
@@ -211,19 +173,55 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="4eT-e9-xtJ" secondAttribute="trailing" constant="-20" id="5uX-Ke-gpS"/>
                             <constraint firstItem="Z0V-ca-mVK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="689-fd-J9K"/>
-                            <constraint firstItem="4h7-tY-GaM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.07" id="80f-PU-lvb"/>
                             <constraint firstItem="4eT-e9-xtJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="B6u-xw-uSr"/>
-                            <constraint firstItem="4eT-e9-xtJ" firstAttribute="top" secondItem="4h7-tY-GaM" secondAttribute="bottom" multiplier="1.1" id="DAY-oE-pQf"/>
-                            <constraint firstItem="4h7-tY-GaM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="E2X-jM-sBW"/>
-                            <constraint firstItem="4h7-tY-GaM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-18" id="Gat-Wk-I0o"/>
+                            <constraint firstItem="4eT-e9-xtJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Fbg-ZK-meN"/>
                             <constraint firstItem="Z0V-ca-mVK" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.3" id="JLy-km-F6G"/>
-                            <constraint firstItem="4eT-e9-xtJ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.6" id="S96-e4-ux9"/>
+                            <constraint firstItem="4eT-e9-xtJ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.7" id="S96-e4-ux9"/>
                             <constraint firstItem="Z0V-ca-mVK" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.17" id="ZI3-vX-OTN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4h7-tY-GaM" secondAttribute="trailing" constant="-16" id="dbN-iW-wg8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Z0V-ca-mVK" secondAttribute="bottom" id="m3s-z1-bXP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Let's fly" id="nXG-bt-G5R"/>
+                    <navigationItem key="navigationItem" id="nXG-bt-G5R">
+                        <nil key="title"/>
+                        <view key="titleView" contentMode="scaleToFill" id="MkE-9o-ydd">
+                            <rect key="frame" x="8" y="7" width="304" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TO2-5K-W4f">
+                                    <rect key="frame" x="152" y="0.0" width="152" height="30"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <state key="normal" title="Fly to">
+                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="buttonTo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kn3-33-jru"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87m-gm-xA3">
+                                    <rect key="frame" x="0.0" y="0.0" width="152" height="30"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <state key="normal" title="Fly From">
+                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="buttonFrom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o3B-aq-uto"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="87m-gm-xA3" firstAttribute="leading" secondItem="MkE-9o-ydd" secondAttribute="leading" id="2id-rb-Ntg"/>
+                                <constraint firstAttribute="trailing" secondItem="TO2-5K-W4f" secondAttribute="trailing" id="PMG-L1-hqQ"/>
+                                <constraint firstAttribute="bottom" secondItem="87m-gm-xA3" secondAttribute="bottom" id="WhI-qv-6NP"/>
+                                <constraint firstItem="TO2-5K-W4f" firstAttribute="top" secondItem="MkE-9o-ydd" secondAttribute="top" id="ge9-ji-qjr"/>
+                                <constraint firstItem="TO2-5K-W4f" firstAttribute="width" secondItem="MkE-9o-ydd" secondAttribute="width" multiplier="0.5" id="mbF-Nq-BLA"/>
+                                <constraint firstAttribute="bottom" secondItem="TO2-5K-W4f" secondAttribute="bottom" id="qLY-Sk-D70"/>
+                                <constraint firstItem="87m-gm-xA3" firstAttribute="width" secondItem="MkE-9o-ydd" secondAttribute="width" multiplier="0.5" id="xFg-Q8-lZ3"/>
+                                <constraint firstItem="87m-gm-xA3" firstAttribute="top" secondItem="MkE-9o-ydd" secondAttribute="top" id="z5C-lh-Zd5"/>
+                            </constraints>
+                        </view>
+                    </navigationItem>
                     <connections>
                         <outlet property="buttonFrom" destination="87m-gm-xA3" id="171-ut-4GX"/>
                         <outlet property="buttonTo" destination="TO2-5K-W4f" id="8zQ-v3-Icg"/>
@@ -233,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-175.19999999999999" y="67.916041979010501"/>
+            <point key="canvasLocation" x="-176.25" y="67.605633802816897"/>
         </scene>
     </scenes>
     <resources>
