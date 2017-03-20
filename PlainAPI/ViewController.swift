@@ -12,18 +12,11 @@ import DropDown
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var backGroundViewBottom: UIView!
+
     @IBOutlet weak var sendRequestButton: UIButton!
-    @IBOutlet weak var backGroundViewTop: UIView!
+
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
-    @IBOutlet weak var arrivalCity      : UILabel!
-    
-
-    
-    @IBOutlet weak var departureCity    : UILabel!
-    @IBOutlet weak var labelFrom        : UILabel!
-    @IBOutlet weak var labelTo          : UILabel!
     @IBOutlet weak var tableView        : UITableView!
     
     var dropDownFrom          : DropDown!
@@ -40,11 +33,12 @@ class ViewController: UIViewController {
     var plainReturn           = [UIImage]()
     var plainInProgress       = [UIImage]()
     var pleaseChooseLabel     : UILabel!
-    
+    var counter               : Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
         self.imagesToArrays()
+        self.counter = 0
         self.startButtonPosition = self.sendRequestButton.frame.origin
         self.startTableViewPostion = self.tableView.frame.origin
     }
@@ -77,47 +71,80 @@ class ViewController: UIViewController {
 }
 //MARK: UITableViewDelegate UITableViewDataSource
 extension ViewController : UITableViewDelegate,UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.trips.count
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CardTableViewCell
-        let dataForCell     = self.trips[indexPath.row]
+        let dataForCell     = self.trips[indexPath.section]
         cell.awayText.text  = self.constants.plainWillDeparture
         cell.arrivalText.text  = self.constants.plainWillArrive
-        cell.priceText.text    = self.constants.ticketPrice
         cell.slidesText.text   = self.constants.sliceCount
         cell.arrival.text   = dataForCell.arrival
         cell.departure.text = dataForCell.departure
         cell.price.text     = dataForCell.price
         cell.slice.text     = String(dataForCell.sliceCount)
+        
+        cell.mainView.layer.masksToBounds = false
+        cell.mainView.layer.shadowColor = UIColor.black.cgColor
+        cell.mainView.layer.shadowOpacity = 1
+        cell.mainView.layer.shadowOffset = CGSize.zero
+        cell.mainView.layer.shadowRadius = 3
+        cell.mainView.layer.shadowPath = UIBezierPath.init(rect: cell.mainView.bounds).cgPath
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        
+//        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.accessibilityFrame.width, height: UIScreen.main.accessibilityFrame.height * 0.1))
+//        view.backgroundColor = .white
+//        return view
+//        
+//    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return UIScreen.main.accessibilityFrame.height * 0.1
+//    }
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.accessibilityFrame.width, height: UIScreen.main.accessibilityFrame.height * 0.1))
+//        view.backgroundColor = .white
+//        return view
+//    }
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return UIScreen.main.accessibilityFrame.height * 0.1
+//    }
+
 }
+
+
 // MARK: ViewController settings
 extension ViewController {
     func controllerSettings(){
+        
         self.airportsName           = self.constants.airportsName
         self.shortTitle             = self.constants.shortTitle
-        self.labelFrom.text         = self.constants.flyFromLabel
-        self.labelTo.text           = self.constants.flyTo
-        self.departureCity.text     = self.constants.city
-        self.arrivalCity.text       = self.constants.city
         self.borderFor(buttonFrom)
         self.borderFor(buttonTo)
         dropDownFrom = DropDown()
         dropDownFrom.anchorView = buttonFrom
         dropDownFrom.dataSource = self.airportsName
         dropDownFrom.selectionAction = {(index: Int, item: String) in
-            self.departureCity.text = item
-            self.from = self.shortTitle[index]
+            let airPortTitle = self.shortTitle[index]
+            self.buttonFrom.titleLabel?.text = airPortTitle
+            self.from = airPortTitle
         }
         dropDownTo = DropDown()
         dropDownTo.anchorView = buttonTo
         dropDownTo.dataSource = self.airportsName
         dropDownTo.selectionAction = { (index: Int, item: String) in
-            self.arrivalCity.text = item
-            self.to = self.self.shortTitle[index]
+             let airPortTitle = self.shortTitle[index]
+            self.buttonTo.titleLabel?.text = airPortTitle
+            self.to = airPortTitle
         }
          self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
         self.pleaseChooseLabel.numberOfLines = 3
@@ -162,8 +189,9 @@ extension ViewController {
         self.sendRequestButton.imageView?.startAnimating()
     }
     func borderFor(_ button: UIButton) {
-        button.layer.borderColor  = UIColor.cyan.cgColor
-        button.layer.borderWidth = 2
+      //  button.layer.borderColor  = UIColor.cyan.cgColor
+        //button.layer.borderWidth = 2
+        
     }
 }
 extension ViewController {

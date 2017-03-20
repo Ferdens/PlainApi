@@ -13,12 +13,12 @@ import Foundation
 struct Constants {
      let airportsName = ["Вена", "Грац", "Днепропетровск","Анапа","Дуранго","Брюссель"]
      let shortTitle   =   ["VIE","GRZ","DNK","AAQ","AMK","BRU"]
-     let plainWillDeparture = "Время отправления: "
-     let plainWillArrive    = "Время прибытия: "
-     let ticketPrice        = "Цена билета: "
-     let sliceCount         = "Количество пересадок: "
-     let flyFromLabel       = "Улетаю из:"
-     let flyTo              = "Прилетаю в:"
+     let plainWillDeparture = "Отправление"
+     let plainWillArrive    = "Прибытие"
+     let ticketPrice        = "Цена билета "
+     let sliceCount         = "Пересадок "
+     let flyFromLabel       = "Улетаю из"
+     let flyTo              = "Прилетаю в"
      let city               = "Город"
      let alertMessage       = "Выберите аэропорт отправки и прибытия."
      let alertTitle         = "Ошибка"
