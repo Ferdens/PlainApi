@@ -50,12 +50,8 @@ class ViewController: UIViewController {
         dropDownTo.show()
     }
     override func viewDidLayoutSubviews() {
-        self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
-        self.pleaseChooseLabel.numberOfLines = 3
-        self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
-        self.pleaseChooseLabel.text = self.constants.chooseCityes
-        self.pleaseChooseLabel.font.withSize(25)
-        self.view.addSubview(pleaseChooseLabel)
+        
+        self.pleaseChooseLabel.frame = CGRect.init(origin: CGPoint.init(x:  self.pleaseChooseLabel.frame.origin.x, y:  self.pleaseChooseLabel.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5))
     }
     @IBAction func sendRequest(_ sender: UIButton) {
         guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();  return }
@@ -79,18 +75,12 @@ class ViewController: UIViewController {
 }
 //MARK: UITableViewDelegate UITableViewDataSource
 extension ViewController : UITableViewDelegate,UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.trips.count
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CardTableViewCell
-        let dataForCell     = self.trips[indexPath.section]
+        let dataForCell     = self.trips[indexPath.row]
         cell.awayText.text  = self.constants.plainWillDeparture
         cell.arrivalText.text  = self.constants.plainWillArrive
         cell.slidesText.text   = self.constants.sliceCount
@@ -98,7 +88,6 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         cell.departure.text = dataForCell.departure
         cell.price.text     = dataForCell.price
         cell.slice.text     = String(dataForCell.sliceCount)
-        
         cell.mainView.layer.masksToBounds = false
         cell.mainView.layer.shadowColor = UIColor.black.cgColor
         cell.mainView.layer.shadowOpacity = 1
@@ -107,25 +96,18 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         cell.mainView.layer.shadowPath = UIBezierPath.init(rect: cell.mainView.bounds).cgPath
         return cell
     }
-
-
 }
-
-
 // MARK: ViewController settings
 extension ViewController {
     func controllerSettings(){
-        
         self.airportsName           = self.constants.airportsName
         self.shortTitle             = self.constants.shortTitle
-        self.borderFor(buttonFrom)
-        self.borderFor(buttonTo)
         dropDownFrom = DropDown()
         dropDownFrom.anchorView = buttonFrom
         dropDownFrom.dataSource = self.airportsName
         dropDownFrom.selectionAction = {(index: Int, item: String) in
             let airPortTitle = self.shortTitle[index]
-            self.buttonFrom.titleLabel?.text = airPortTitle
+            self.buttonFrom.titleLabel?.text = airPortTitle 
             self.from = airPortTitle
         }
         dropDownTo = DropDown()
@@ -136,7 +118,12 @@ extension ViewController {
             self.buttonTo.titleLabel?.text = airPortTitle
             self.to = airPortTitle
         }
-        
+        self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
+        self.pleaseChooseLabel.numberOfLines = 3
+        self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
+        self.pleaseChooseLabel.text = self.constants.chooseCityes
+        self.pleaseChooseLabel.font.withSize(25)
+        self.view.addSubview(pleaseChooseLabel)
     }
 }
 //MARK: AlertView
@@ -164,6 +151,7 @@ extension ViewController {
         }
     }
     func defaultPsitions(){
+        
         if (self.sendRequestButton.imageView?.isAnimating)! {
             self.sendRequestButton.imageView?.stopAnimating()
         }
@@ -172,11 +160,6 @@ extension ViewController {
         self.sendRequestButton.imageView?.animationDuration = 0.6
         self.sendRequestButton.setImage(#imageLiteral(resourceName: "1a"), for: .normal)
         self.sendRequestButton.imageView?.startAnimating()
-    }
-    func borderFor(_ button: UIButton) {
-      //  button.layer.borderColor  = UIColor.cyan.cgColor
-        //button.layer.borderWidth = 2
-        
     }
 }
 extension ViewController {
