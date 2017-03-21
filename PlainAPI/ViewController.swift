@@ -15,6 +15,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var sendRequestButton: UIButton!
 
+    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
     @IBOutlet weak var tableView        : UITableView!
@@ -33,12 +34,16 @@ class ViewController: UIViewController {
     var plainReturn           = [UIImage]()
     var plainInProgress       = [UIImage]()
     var pleaseChooseLabel     : UILabel!
-    var counter               : Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
         self.imagesToArrays()
-        self.counter = 0
+        self.topView.layer.masksToBounds = false
+        self.topView.layer.shadowColor = UIColor.black.cgColor
+        self.topView.layer.shadowOpacity = 1
+        self.topView.layer.shadowOffset = CGSize.zero
+        self.topView.layer.shadowRadius = 3
+        self.topView.layer.shadowPath = UIBezierPath.init(rect: self.topView.bounds).cgPath
         self.startButtonPosition = self.sendRequestButton.frame.origin
         self.startTableViewPostion = self.tableView.frame.origin
     }
@@ -132,6 +137,7 @@ extension ViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) { [unowned self] (action: UIAlertAction!) in
             self.dismiss(animated: true, completion: nil)
+            
         })
         self.present(alert, animated: true, completion: nil)
     }
@@ -151,7 +157,6 @@ extension ViewController {
         }
     }
     func defaultPsitions(){
-        
         if (self.sendRequestButton.imageView?.isAnimating)! {
             self.sendRequestButton.imageView?.stopAnimating()
         }

@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.1843137255" green="0.2274509804" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" red="0.13725490196078433" green="0.16470588235294117" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <connections>
@@ -227,6 +227,7 @@
                         <outlet property="buttonTo" destination="TO2-5K-W4f" id="8zQ-v3-Icg"/>
                         <outlet property="sendRequestButton" destination="Z0V-ca-mVK" id="OFi-gj-cYp"/>
                         <outlet property="tableView" destination="4eT-e9-xtJ" id="GrW-DA-CxG"/>
+                        <outlet property="topView" destination="MkE-9o-ydd" id="szz-Wg-GFe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
