@@ -12,9 +12,6 @@ import DropDown
 
 class ViewController: UIViewController {
     
-
-    @IBOutlet weak var sendRequestButton: UIButton!
-
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
@@ -34,18 +31,51 @@ class ViewController: UIViewController {
     var plainReturn           = [UIImage]()
     var plainInProgress       = [UIImage]()
     var pleaseChooseLabel     : UILabel!
+    
+    //BUTTON
+    var imageviewPlainFlying : UIImageView?
+    var backView             : UIView?
+    var imageviewGoAway      : UIImageView?
+    var isDone  = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.controllerSettings()
         self.imagesToArrays()
-        self.topView.layer.masksToBounds = false
-        self.topView.layer.shadowColor = UIColor.black.cgColor
-        self.topView.layer.shadowOpacity = 1
-        self.topView.layer.shadowOffset = CGSize.zero
-        self.topView.layer.shadowRadius = 3
-        self.topView.layer.shadowPath = UIBezierPath.init(rect: self.topView.bounds).cgPath
-        self.startButtonPosition = self.sendRequestButton.frame.origin
+        self.topView.addShadow(opacity: 1, radius: 3)
+        
         self.startTableViewPostion = self.tableView.frame.origin
+        
+        //BUTTON
+        
+        self.backView = UIView(frame: CGRect(x: self.view.bounds.width * 0.78, y: self.view.bounds.height * 0.85, width: 60, height: 60))
+        backView?.layer.cornerRadius = (backView?.bounds.width)! / 2
+        backView?.backgroundColor = UIColor(red: 22/255, green: 122/255, blue: 255/255, alpha: 1)
+        backView?.layer.masksToBounds = true
+        
+        let secondView = UIView.init(frame: (backView?.frame)!)
+        secondView.layer.cornerRadius = (secondView.bounds.width / 2) + 3
+        secondView.backgroundColor = .white
+        secondView.addShadow(opacity: 1, radius: 3)
+        
+        self.imageviewPlainFlying = UIImageView(image: #imageLiteral(resourceName: "PlainBlack"))
+        imageviewPlainFlying?.contentMode = UIViewContentMode.scaleAspectFit
+        imageviewPlainFlying?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * 1.5))
+        self.imageviewPlainFlying?.tintColor = UIColor(white: 0.3, alpha: 1.0)
+        self.imageviewPlainFlying?.frame = CGRect(x: (backView?.bounds.maxX)! + (imageviewPlainFlying?.bounds.width)!, y:  (backView?.bounds.midY)! - 10, width: 20, height: 20)
+        
+        self.imageviewGoAway = UIImageView(image: #imageLiteral(resourceName: "PlainBlack"))
+        self.imageviewGoAway?.contentMode = UIViewContentMode.scaleAspectFit
+        self.imageviewGoAway?.tintColor = UIColor(white: 1, alpha: 1.0)
+        self.imageviewGoAway?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+        self.imageviewGoAway?.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
+    
+        backView?.addSubview(imageviewPlainFlying!)
+        backView?.addSubview(imageviewGoAway!)
+        secondView.addSubview(backView!)
+        self.view.addSubview(secondView)
+        self.view.addSubview(backView!)
+        self.backView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goFly)))
     }
     //MARK: Actions
     @IBAction func buttonFrom(_ sender: UIButton) {
@@ -56,28 +86,60 @@ class ViewController: UIViewController {
     }
     override func viewDidLayoutSubviews() {
         
-        self.pleaseChooseLabel.frame = CGRect.init(origin: CGPoint.init(x:  self.pleaseChooseLabel.frame.origin.x, y:  self.pleaseChooseLabel.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5))
+        self.pleaseChooseLabel.frame = CGRect(origin: CGPoint(x:  self.pleaseChooseLabel.frame.origin.x, y:  self.pleaseChooseLabel.frame.origin.y), size: CGSize(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5))
     }
-    @IBAction func sendRequest(_ sender: UIButton) {
-        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();  return }
-        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.defaultPsitions();
+    //MARK: Button
+    func goFly(){
+        self.goAway()
+        self.imageviewPlainFlying?.frame = CGRect(x: (backView?.bounds.maxX)! + (imageviewPlainFlying?.bounds.width)!, y:  (backView?.bounds.midY)! - 10, width: 20, height: 20)
+        self.fly()
+    }
+    func fly() {
+        UIView.animate(withDuration: 2, animations: {
+            self.imageviewPlainFlying?.frame = CGRect(x: (self.backView?.bounds.maxX)! , y:  (self.backView?.bounds.midY)! - 10, width: 20, height: 20)
+            self.imageviewPlainFlying?.frame.origin.x -= ((self.backView?.bounds.width)! + (self.imageviewPlainFlying?.bounds.width)!)
+        }) { (Bool) in
+            if self.isDone {
+                self.comeBack()
+                
+            } else {
+                self.goFly()
+            }
+        }
+    }
+    func goAway(){
+        self.isDone = false
+        guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.isDone = true;  return }
+        guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.isDone = true;
             return }
         if self.from == self.to {
-            self.alertViewWith(message: self.constants.ifOriginAndDistinctisEqual, title:"");self.defaultPsitions(); return }
-        self.goAway()
-        DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo, responseData: { (response ) in
+            self.alertViewWith(message: self.constants.ifOriginAndDistinctisEqual, title:"");self.isDone = true; return }
+        
+         DataManager.requestAPI(from: cityCodeFrom, to: cityCodeTo) { (response) in
             guard response.count != 0 else {
-                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle);self.defaultPsitions(); return }
-            UIView.animate(withDuration: 0.5, animations: {
-                self.tableView.frame.origin = self.startTableViewPostion!
-                self.pleaseChooseLabel.frame.origin.x = self.pleaseChooseLabel.frame.origin.x + self.view.frame.width
-            })
-            self.defaultPsitions()
+                self.alertViewWith(message:self.constants.alertMessageError, title: self.constants.alertTitle);self.isDone = true; return }
+            
             self.trips = response
             self.tableView.reloadData()
-        })
-    }
+            self.pleaseChooseLabel.frame.origin.x = self.pleaseChooseLabel.frame.origin.x + self.view.frame.width
+            self.isDone = true
+        }
+        UIView.animate(withDuration: 1) {
+            self.imageviewGoAway?.frame.origin.x = (self.backView?.frame.width)! +  (self.imageviewGoAway?.frame.width)!
+        }
+        
 }
+    func comeBack(){
+        self.imageviewGoAway?.frame = CGRect(x: (backView?.bounds.minX)! -  (self.imageviewGoAway?.bounds.width)!, y: 15, width: 30, height: 30)
+        UIView.animate(withDuration: 1) {
+            self.imageviewGoAway?.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
+            
+        }
+    }
+    
+}
+
+
 //MARK: UITableViewDelegate UITableViewDataSource
 extension ViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,13 +155,15 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         cell.departure.text = dataForCell.departure
         cell.price.text     = dataForCell.price
         cell.slice.text     = String(dataForCell.sliceCount)
-        cell.mainView.layer.masksToBounds = false
-        cell.mainView.layer.shadowColor = UIColor.black.cgColor
-        cell.mainView.layer.shadowOpacity = 1
-        cell.mainView.layer.shadowOffset = CGSize.zero
-        cell.mainView.layer.shadowRadius = 3
-        cell.mainView.layer.shadowPath = UIBezierPath.init(rect: cell.mainView.bounds).cgPath
+        cell.mainView.addShadow(opacity: 0.8, radius: 3)
+        
         return cell
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: 100))
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 100
     }
 }
 // MARK: ViewController settings
@@ -112,18 +176,18 @@ extension ViewController {
         dropDownFrom.dataSource = self.airportsName
         dropDownFrom.selectionAction = {(index: Int, item: String) in
             let airPortTitle = self.shortTitle[index]
-            self.buttonFrom.titleLabel?.text = airPortTitle 
+            self.buttonFrom.titleLabel?.text = airPortTitle
             self.from = airPortTitle
         }
         dropDownTo = DropDown()
         dropDownTo.anchorView = buttonTo
         dropDownTo.dataSource = self.airportsName
         dropDownTo.selectionAction = { (index: Int, item: String) in
-             let airPortTitle = self.shortTitle[index]
+            let airPortTitle = self.shortTitle[index]
             self.buttonTo.titleLabel?.text = airPortTitle
             self.to = airPortTitle
         }
-        self.pleaseChooseLabel = UILabel.init(frame: CGRect.init(origin: CGPoint.init(x: 0, y: self.tableView.frame.origin.y), size: CGSize.init(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
+        self.pleaseChooseLabel = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: self.tableView.frame.origin.y), size: CGSize(width: self.tableView.bounds.width, height: self.tableView.bounds.height * 0.5)))
         self.pleaseChooseLabel.numberOfLines = 3
         self.pleaseChooseLabel.textAlignment = NSTextAlignment.center
         self.pleaseChooseLabel.text = self.constants.chooseCityes
@@ -142,45 +206,33 @@ extension ViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
-extension ViewController {
-    func goAway() {
-        self.sendRequestButton.imageView?.animationImages = self.plainAway
-        self.sendRequestButton.imageView?.animationRepeatCount = 1
-        self.sendRequestButton.imageView?.animationDuration = 0.6
-        self.sendRequestButton.setImage(#imageLiteral(resourceName: "21a"), for: .normal)
-        self.sendRequestButton.imageView?.startAnimating()
-        Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { (tiemer) in
-            self.sendRequestButton.imageView?.animationImages = self.plainInProgress
-            self.sendRequestButton.imageView?.animationRepeatCount = 0
-            self.sendRequestButton.imageView?.animationDuration = 1
-            self.sendRequestButton.imageView?.startAnimating()
-        }
-    }
-    func defaultPsitions(){
-        if (self.sendRequestButton.imageView?.isAnimating)! {
-            self.sendRequestButton.imageView?.stopAnimating()
-        }
-        self.sendRequestButton.imageView?.animationImages = self.plainReturn
-        self.sendRequestButton.imageView?.animationRepeatCount = 1
-        self.sendRequestButton.imageView?.animationDuration = 0.6
-        self.sendRequestButton.setImage(#imageLiteral(resourceName: "1a"), for: .normal)
-        self.sendRequestButton.imageView?.startAnimating()
-    }
-}
+
 extension ViewController {
     func imagesToArrays(){
         for i in 1..<22 {
             let nameAway   = String(i) + "a"
             let nameReturn = String(i) + "r"
-            if let imageAway = UIImage.init(named: nameAway) {self.plainAway.append(imageAway)}
-            if let imageReturn = UIImage.init(named: nameReturn){ self.plainReturn.append(imageReturn)}
+            if let imageAway = UIImage(named: nameAway) {self.plainAway.append(imageAway)}
+            if let imageReturn = UIImage(named: nameReturn){ self.plainReturn.append(imageReturn)}
         }
         for i in 1..<39 {
             let imageName = String(i) + "f"
-            if let image = UIImage.init(named: imageName) {
+            if let image = UIImage(named: imageName) {
                 self.plainInProgress.append(image)
             }
         }
+    }
+}
+
+extension UIView {
+    
+    func addShadow( opacity: Float,radius: CGFloat){
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowRadius = radius
+        //self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
     }
 }
 
