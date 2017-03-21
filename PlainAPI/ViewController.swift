@@ -12,7 +12,7 @@ import DropDown
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var topView          : UIView!
     @IBOutlet weak var buttonFrom       : UIButton!
     @IBOutlet weak var buttonTo         : UIButton!
     @IBOutlet weak var tableView        : UITableView!
@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         self.topView.addShadow(opacity: 1, radius: 3)
         self.configurateButton()
     }
+    
     //MARK: Actions
     @IBAction func buttonFrom(_ sender: UIButton) {
         dropDownFrom.show()
@@ -58,7 +59,6 @@ class ViewController: UIViewController {
         secondView.layer.cornerRadius = (secondView.bounds.width / 2) + 3
         secondView.backgroundColor = .white
         secondView.addShadow(opacity: 1, radius: 3)
-        
         self.imageviewPlainFlying = UIImageView(image: #imageLiteral(resourceName: "PlainBlack"))
         imageviewPlainFlying?.contentMode = UIViewContentMode.scaleAspectFit
         imageviewPlainFlying?.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI * 1.5))
@@ -123,34 +123,6 @@ class ViewController: UIViewController {
             self.imageviewGoAway?.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
         }
     }
-}
-//MARK: UITableViewDelegate UITableViewDataSource
-extension ViewController : UITableViewDelegate,UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.trips.count
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CardTableViewCell
-        let dataForCell     = self.trips[indexPath.row]
-        cell.awayText.text  = self.constants.plainWillDeparture
-        cell.arrivalText.text  = self.constants.plainWillArrive
-        cell.slidesText.text   = self.constants.sliceCount
-        cell.arrival.text   = dataForCell.arrival
-        cell.departure.text = dataForCell.departure
-        cell.price.text     = dataForCell.price
-        cell.slice.text     = String(dataForCell.sliceCount)
-        cell.mainView.addShadow(opacity: 0.8, radius: 3)
-        return cell
-    }
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: 100))
-    }
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 100
-    }
-}
-// MARK: ViewController settings
-extension ViewController {
     func controllerSettings(){
         self.airportsName           = self.constants.airportsName
         self.shortTitle             = self.constants.shortTitle
@@ -177,15 +149,38 @@ extension ViewController {
         self.pleaseChooseLabel.font.withSize(25)
         self.view.addSubview(pleaseChooseLabel)
     }
-}
-//MARK: AlertView
-extension ViewController {
     func alertViewWith(message: String, title: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) { [unowned self] (action: UIAlertAction!) in
             self.dismiss(animated: true, completion: nil)
         })
         self.present(alert, animated: true, completion: nil)
+    }
+
+}
+//MARK: UITableViewDelegate UITableViewDataSource
+extension ViewController : UITableViewDelegate,UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.trips.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CardTableViewCell
+        let dataForCell     = self.trips[indexPath.row]
+        cell.awayText.text  = self.constants.plainWillDeparture
+        cell.arrivalText.text  = self.constants.plainWillArrive
+        cell.slidesText.text   = self.constants.sliceCount
+        cell.arrival.text   = dataForCell.arrival
+        cell.departure.text = dataForCell.departure
+        cell.price.text     = dataForCell.price
+        cell.slice.text     = String(dataForCell.sliceCount)
+        cell.mainView.addShadow(opacity: 0.5, radius: 3)
+        return cell
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.tableView.frame.width, height: 100))
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 100
     }
 }
 
