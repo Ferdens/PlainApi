@@ -77,28 +77,32 @@ class ViewController: UIViewController {
         
         self.view.addSubview(secondView)
         self.view.addSubview(backView!)
-        self.backView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goFly)))
+        self.backView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendRequest)))
         
     }
-    //MARK: ButtonActions
-    func goFly(){
-        self.goAway()
-        self.imageviewPlainFlying?.frame = CGRect(x: (backView?.bounds.maxX)! + (imageviewPlainFlying?.bounds.width)!, y:  (backView?.bounds.midY)! - 10, width: 20, height: 20)
-        self.fly()
-    }
+    //MARK: ButtonAction
     func fly() {
-        UIView.animate(withDuration: 2, animations: {
-            self.imageviewPlainFlying?.frame = CGRect(x: (self.backView?.bounds.maxX)! , y:  (self.backView?.bounds.midY)! - 10, width: 20, height: 20)
-            self.imageviewPlainFlying?.frame.origin.x -= ((self.backView?.bounds.width)! + (self.imageviewPlainFlying?.bounds.width)!)
+        UIView.animate(withDuration: 1, animations: {
+            self.imageviewGoAway?.frame.origin.x = (self.backView?.frame.width)! +  (self.imageviewGoAway?.frame.width)!
+            
         }) { (Bool) in
-            if self.isDone {
-                self.comeBack()
-            } else {
-                self.goFly()
+            self.imageviewPlainFlying?.frame = CGRect(x: (self.backView?.bounds.maxX)! + (self.imageviewPlainFlying?.bounds.width)!, y:  (self.backView?.bounds.midY)! - 10, width: 20, height: 20)
+            UIView.animate(withDuration: 2, animations: {
+                self.imageviewPlainFlying?.frame = CGRect(x: (self.backView?.bounds.maxX)! , y:  (self.backView?.bounds.midY)! - 10, width: 20, height: 20)
+                self.imageviewPlainFlying?.frame.origin.x -= ((self.backView?.bounds.width)! + (self.imageviewPlainFlying?.bounds.width)!)
+            }) { (Bool) in
+                if self.isDone {
+                    self.imageviewGoAway?.frame = CGRect(x: (self.backView?.bounds.minX)! -  (self.imageviewGoAway?.bounds.width)!, y: 15, width: 30, height: 30)
+                    UIView.animate(withDuration: 1) {
+                        self.imageviewGoAway?.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
+                    }
+                } else {
+                    self.fly()
+                }
             }
         }
     }
-    func goAway(){
+    func sendRequest(){
         self.isDone = false
         guard let cityCodeFrom = self.from else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.isDone = true;  return }
         guard let cityCodeTo   = self.to   else { self.alertViewWith(message: self.constants.alertMessage, title: self.constants.alertTitle);self.isDone = true;
@@ -113,16 +117,9 @@ class ViewController: UIViewController {
             self.pleaseChooseLabel.frame.origin.x = self.pleaseChooseLabel.frame.origin.x + self.view.frame.width
             self.isDone = true
         }
-        UIView.animate(withDuration: 1) {
-            self.imageviewGoAway?.frame.origin.x = (self.backView?.frame.width)! +  (self.imageviewGoAway?.frame.width)!
-        }
+        self.fly()
     }
-    func comeBack(){
-        self.imageviewGoAway?.frame = CGRect(x: (backView?.bounds.minX)! -  (self.imageviewGoAway?.bounds.width)!, y: 15, width: 30, height: 30)
-        UIView.animate(withDuration: 1) {
-            self.imageviewGoAway?.frame = CGRect(x: 15, y: 15, width: 30, height: 30)
-        }
-    }
+    
     func controllerSettings(){
         self.airportsName           = self.constants.airportsName
         self.shortTitle             = self.constants.shortTitle
@@ -156,7 +153,7 @@ class ViewController: UIViewController {
         })
         self.present(alert, animated: true, completion: nil)
     }
-
+    
 }
 //MARK: UITableViewDelegate UITableViewDataSource
 extension ViewController : UITableViewDelegate,UITableViewDataSource {
